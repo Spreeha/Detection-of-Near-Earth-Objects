@@ -1,14 +1,14 @@
 # Explore Close Approaches of Near-Earth Objects
 
-In this project, you'll use Python - and the skills we've developed throughout this course - to search for and explore close approaches of near-Earth objects (NEOs), using data from NASA/JPL's Center for Near Earth Object Studies.
+In this project, we'll use Python to search for and explore close approaches of near-Earth objects (NEOs), using data from NASA/JPL's Center for Near Earth Object Studies.
 
 ## Overview
 
-At a high-level, you'll create Python code that implements a command-line tool to inspect and query a dataset of NEOs and their close approaches to Earth.
+At a high-level, we'll create Python code that implements a command-line tool to inspect and query a dataset of NEOs and their close approaches to Earth.
 
-Concretely, you'll have to read data from both a CSV file and a JSON file, convert that data into structured Python objects, perform filtering operations on the data, limit the size of the result set, and write the results to a file in a structured format, such as CSV or JSON.
+Concretely, we'll have to read data from both a CSV file and a JSON file, convert that data into structured Python objects, perform filtering operations on the data, limit the size of the result set, and write the results to a file in a structured format, such as CSV or JSON.
 
-When complete, you'll be able to inspect the properties of the near-Earth objects in the data set and query the data set of close approaches to Earth using any combination of the following filters:
+When complete, we'll be able to inspect the properties of the near-Earth objects in the data set and query the data set of close approaches to Earth using any combination of the following filters:
 
 - Occurs on a given date.
 - Occurs on or after a given start date.
@@ -20,36 +20,36 @@ When complete, you'll be able to inspect the properties of the near-Earth object
 
 ### Learning Objectives
 
-By completing this project, you'll have demonstrated an ability to:
+By completing this project, we'll have demonstrated an ability to:
 
 - Represent structured data in Python.
 - Extract data from structured files into Python.
 - Transform the data within Python according to some desired behavior.
 - Save the results in a structured way to a file.
 
-Along the way, you'll have to be able to:
+Along the way, we'll have to be able to:
 
 - Write Python functions to transform data and perform algorithms.
 - Design Python classes to encapsulate useful data types.
 - Provide interface abstractions for complex implementations.
 
-It's normal to encounter bugs along the way, so in all likelihood, you'll also gain practice with valuable debugging skills, whether interpreting stack traces, chasing down system errors, handling and raising appropriate errors, walking through code with `pdb`, checking preconditions with `assert`, or simply displaying internal state with `print`.
+It's normal to encounter bugs along the way, so in all likelihood, we'll also gain practice with valuable debugging skills, whether interpreting stack traces, chasing down system errors, handling and raising appropriate errors, walking through code with `pdb`, checking preconditions with `assert`, or simply displaying internal state with `print`.
 
 ## Understanding the Near-Earth Object Close Approach Datasets
 
 This project contains two important data sets, and our first step will be to explore and understand the data containing within these structured files.
 
-One dataset (`neos.csv`) contains information about semantic, physical, orbital, and model parameters for certain small bodies (asteroids and comets, mostly) in our solar system. The other dataset (`cad.json`) contains information about NEO close approaches - moments in time when the orbit of an astronomical body brings it close to Earth. NASA helpfully provides a [glossary](https://cneos.jpl.nasa.gov/glossary/) to define any unfamiliar terms you might encounter.
+One dataset (`neos.csv`) contains information about semantic, physical, orbital, and model parameters for certain small bodies (asteroids and comets, mostly) in our solar system. The other dataset (`cad.json`) contains information about NEO close approaches - moments in time when the orbit of an astronomical body brings it close to Earth. NASA helpfully provides a [glossary](https://cneos.jpl.nasa.gov/glossary/) to define any unfamiliar terms we might encounter.
 
-Importantly, these datasets come directly from NASA - we haven't dressed them up for you at all.
+Importantly, these datasets come directly from NASA - we haven't dressed them up for we at all.
 
 ### Small-Bodies Dataset
 
 NASA's Jet Propulsion Laboratory (JPL) provides [a web interface](https://ssd.jpl.nasa.gov/sbdb_query.cgi) to their database of "small bodies" - mostly asteroids and comets - in the solar system. A subset of these small bodies are near-Earth objects (NEOs): "comets and asteroids that have been nudged by the gravitational attraction of nearby planets into orbits that allow them to enter the Earth's neighborhood." [1]
 
-From this dataset, you can answer questions such as "what is the diameter of the Halley's Comet?" or "is the near-Earth object named 'Eros' potentially hazardous?".
+From this dataset, we can answer questions such as "what is the diameter of the Halley's Comet?" or "is the near-Earth object named 'Eros' potentially hazardous?".
 
-NASA's web service lets you download their data on near-Earth objects in a CSV format. For this project, the data set we've provided (`neos.csv`) comes directly from a query in which we limited the "Object Group" to NEOs and in which we selected _every_ output field. That's a _lot_ of columns (75, to be exact)!
+NASA's web service lets we download their data on near-Earth objects in a CSV format. For this project, the data set we've provided (`neos.csv`) comes directly from a query in which we limited the "Object Group" to NEOs and in which we selected _every_ output field. That's a _lot_ of columns (75, to be exact)!
 
 Let's take an initial look at the first three rows of `neos.csv`:
 
@@ -61,7 +61,7 @@ a0000719,2000719,"   719 Albert (A911 TB)",719,Albert,,Y,N,15.5,,,,,,,,,,5.801,,
 
 Before we're able to write Python code to process this data, we'll need to understand what this data represents.
 
-In this CSV file, the first row is a header, containing names for each of the columns. Each subsequent row represents a single NEO. There are too many columns to understand fully (although we encourage you to learn more by searching NASA's website!), so we'll focus on just a few of them:
+In this CSV file, the first row is a header, containing names for each of the columns. Each subsequent row represents a single NEO. There are too many columns to understand fully (although we encourage we to learn more by searching NASA's website!), so we'll focus on just a few of them:
 
 ```
 pdes - the primary designation of the NEO. This is a unique identifier in the database, and its "name" to computer systems.
@@ -74,15 +74,15 @@ So, the first NEO described in the CSV file has a primary designation of 433 and
 
 Every NEO has a primary designation, but there exist NEOs without names (in fact, having an IAU name is relatively rare!). Some IAU names are reused for several NEOs. For some NEOs, the data doesn't include information about a diameter, because NASA does not have enough observations to make a reasonably-accurate estimate.
 
-If you'd like to explore individual NEOs in more detail (and perhaps interpret a few of the rest of the columns), NASA also provides a [web interface to search for a single small body](https://ssd.jpl.nasa.gov/sbdb.cgi) as well as [an API](https://ssd-api.jpl.nasa.gov/doc/sbdb.html).
+If we'd like to explore individual NEOs in more detail (and perhaps interpret a few of the rest of the columns), NASA also provides a [web interface to search for a single small body](https://ssd.jpl.nasa.gov/sbdb.cgi) as well as [an API](https://ssd-api.jpl.nasa.gov/doc/sbdb.html).
 
 [1]: https://cneos.jpl.nasa.gov/about/basics.html
 
 ### Close Approach Dataset
 
-NASA's Center for Near-Earth Object Studies (CNEOS) also provides data about close approaches of NEOs to Earth. A close approach occurs when an NEO's orbit path brings it near Earth - although, "near" in astronomical terms can be quite far in human-scale units, such as kilometers. Instead of kilometers, astronomical distances within the solar system are often measured with the astronomical unit (au) - the mean distance between the Earth and the sun - although sometimes you'll see distances measured with the lunar distance (ld) - the mean distance between the Earth and the moon - or even plain old kilometers.
+NASA's Center for Near-Earth Object Studies (CNEOS) also provides data about close approaches of NEOs to Earth. A close approach occurs when an NEO's orbit path brings it near Earth - although, "near" in astronomical terms can be quite far in human-scale units, such as kilometers. Instead of kilometers, astronomical distances within the solar system are often measured with the astronomical unit (au) - the mean distance between the Earth and the sun - although sometimes we'll see distances measured with the lunar distance (ld) - the mean distance between the Earth and the moon - or even plain old kilometers.
 
-From this dataset, you can answer questions such as "On which date(s) does Halley's Comet pass near to Earth?" or "How fast does Eros pass by Earth, on average?"
+From this dataset, we can answer questions such as "On which date(s) does Halley's Comet pass near to Earth?" or "How fast does Eros pass by Earth, on average?"
 
 The data is JSON-formatted, and we've downloaded it from NASA's public API. A description of the API, as well as details about the query parameters and the scheme of the returned data, can be found [here](https://ssd-api.jpl.nasa.gov/doc/cad.html). Concretely, we asked NASA for this data by querying the API at `https://ssd-api.jpl.nasa.gov/cad.api?date-min=1900-01-01&date-max=2100-01-01&dist-max=1`. In other words, our data set contains all currently known close approaches that have happened or will happen in the 20th and 21st centuries! Additionally, NASA provides the data is chronological order.
 
@@ -166,11 +166,11 @@ The second close approach contained in the dataset is:
 * 3-sigma uncertainty in the time of close approach of less than 1 minute.
 * an absolute magnitude of 20.3
 
-As before, this data set contains more information than we need. For this project, we'll make use of the `des`, `cd`, `dist`, and `v_rel` measurements - although the other attributes can be useful if you wish to extend the project! Fortunately, each entry has well-formatted data for each of these attributes.
+As before, this data set contains more information than we need. For this project, we'll make use of the `des`, `cd`, `dist`, and `v_rel` measurements - although the other attributes can be useful if we wish to extend the project! Fortunately, each entry has well-formatted data for each of these attributes.
 
 ### Visual Exploration
 
-If you're someone who prefers to explore data sets by poking around a web site, NASA has [a tutorial video](https://www.youtube.com/watch?v=UA6voCyCW1g) on how to effectively navigate the CNEOS website, and an [interactive close approach data table](https://cneos.jpl.nasa.gov/ca/) that you can investigate.
+If we're someone who prefers to explore data sets by poking around a web site, NASA has [a tutorial video](https://www.wetube.com/watch?v=UA6voCyCW1g) on how to effectively navigate the CNEOS website, and an [interactive close approach data table](https://cneos.jpl.nasa.gov/ca/) that we can investigate.
 
 Also, it's important to realize that NASA is discovering new NEOs, and potential forecasting new close approaches, every week, so their web-based UI might contain updated information that isn't represented in the data files included with this project.
 
@@ -178,9 +178,9 @@ Also, it's important to realize that NASA is discovering new NEOs, and potential
 
 Now that we understand the data with which we'll be working, let's dive into what our program will actually do
 
-This project is driven by the `main.py` script. That means that you'll run `python3 main.py ... ... ...` at the command line to invoke the program that will call your code.
+This project is driven by the `main.py` script. That means that we'll run `python3 main.py ... ... ...` at the command line to invoke the program that will call wer code.
 
-At a command line, you can run `python3 main.py --help` for an explanation of how to invoke the script.
+At a command line, we can run `python3 main.py --help` for an explanation of how to invoke the script.
 
 ```python
 usage: main.py [-h] [--neofile NEOFILE] [--cadfile CADFILE] {inspect,query,interactive} ...
@@ -200,7 +200,7 @@ There are three subcommands: `inspect`, `query`, and `interactive`. Let's take a
 
 ### `inspect`
 
-The `inspect` subcommand inspects a single NEO, printing its details in a human-readable format. The NEO is specified with exactly one of the `--pdes` option (the primary designation) and the `--name` option (the IAU name). The `--verbose` flag additionally prints out, in a human-readable form, all known close approaches to Earth made by this NEO. Each of these options has an abbreviated version. To remind yourself of the full interface, you can run `python3 main.py inspect --help`:
+The `inspect` subcommand inspects a single NEO, printing its details in a human-readable format. The NEO is specified with exactly one of the `--pdes` option (the primary designation) and the `--name` option (the IAU name). The `--verbose` flag additionally prints out, in a human-readable form, all known close approaches to Earth made by this NEO. Each of these options has an abbreviated version. To remind werself of the full interface, we can run `python3 main.py inspect --help`:
 
 ```
 $ python3 main.py inspect --help
@@ -351,7 +351,7 @@ $ python3 main.py query --start-date 2020-01-01 --end-date 2029-12-31 --min-diam
 
 ### `interactive`
 
-There's a third useful subcommand named `interactive`. This subcommand first loads the database and then starts a command loop so that you can repeatedly run `inspect` and `query` subcommands on the database without having to wait to reload the data each time you want to run a new command, which saves an extraordinary amount of time. This can be extremely helpful, as it lets you speed up your development cycle and even show off the project more easily to friends.
+There's a third useful subcommand named `interactive`. This subcommand first loads the database and then starts a command loop so that we can repeatedly run `inspect` and `query` subcommands on the database without having to wait to reload the data each time we want to run a new command, which saves an extraordinary amount of time. This can be extremely helpful, as it lets we speed up wer development cycle and even show off the project more easily to friends.
 
 Here's what an example session might look like:
 
@@ -374,9 +374,9 @@ On 2021-03-14 20:19, '483656' approaches Earth at a distance of 0.06 au and a ve
 ...
 ```
 
-The prompt is `(neo) `. At the prompt, you can enter either an `inspect` or a `query` subcommand, with the exact same options and behavior as you would on the command line. You can use the special command `quit`, `exit`, or `CTRL+D` to exit this session and return to the command line. The command `help` or `?` shows a help menu, and `help <command>` (e.g. `help query`) shows a help menu specific to that command. In this environment only, you can also use the short forms `i` and `q` for `inspect` and `query` (e.g. `(neo) i --verbose --name Ganymed)`).
+The prompt is `(neo) `. At the prompt, we can enter either an `inspect` or a `query` subcommand, with the exact same options and behavior as we would on the command line. we can use the special command `quit`, `exit`, or `CTRL+D` to exit this session and return to the command line. The command `help` or `?` shows a help menu, and `help <command>` (e.g. `help query`) shows a help menu specific to that command. In this environment only, we can also use the short forms `i` and `q` for `inspect` and `query` (e.g. `(neo) i --verbose --name Ganymed)`).
 
-Importantly, **the `interactive` session doesn't automatically update when you update your code.** This means that, if you make a meaningful change to your Python files, you should exit and restart the session. If the interactive session detects that any Python files have changed since it began, it will warn you before it runs each new command. The `interactive` subcommand takes an optional argument `--aggressive` - if specified, the interactive session will instead preemptively exit whenever it notices any changes to any Python files.
+Importantly, **the `interactive` session doesn't automatically update when we update wer code.** This means that, if we make a meaningful change to wer Python files, we should exit and restart the session. If the interactive session detects that any Python files have changed since it began, it will warn we before it runs each new command. The `interactive` subcommand takes an optional argument `--aggressive` - if specified, the interactive session will instead preemptively exit whenever it notices any changes to any Python files.
 
 All in all, the `interactive` subcommand has the following options:
 
@@ -393,7 +393,7 @@ optional arguments:
 
 ## Project Scaffolding
 
-Upon starting, the project contains several files and folders to help you get up and running:
+Upon starting, the project contains several files and folders to help we get up and running:
 
 ```
 .
@@ -418,17 +418,17 @@ Upon starting, the project contains several files and folders to help you get up
 
 Let's take a closer look at the purpose of each of these files and folders:
 
-- `main.py`: The main Python script that wraps the command-line tool, orchestrates the data pipeline by invoking the functions and classes that you'll write. **You will not need to modify this file.**
-- `models.py`: In this file, you'll define Python objects to represent a `NearEarthObject` and a `CloseApproach`. These objects will have a few attributes, a human-readable string representatino, and perhaps a property or a method here or there.
-- `extract.py`: In this file, you'll write functions to read information from data files, creating `NearEarthObject`s and `CloseApproaches` from the data.
-- `database.py`: In this file, you'll define an `NEODatabase` class to encapsulate the entire data set (connecting NEOs and close approaches) and write methods to get NEOs by primary designation and by name, as well as to query the dataset with a collection of user-specified filters to generate an iterable stream of matching results.
-- `filters.py`: In this file, you'll create a plethora of filters to be used in conjuction with the `NEODatabase` to query for a stream of matching close approaches. You'll also write a utility function to limit the number of results produced from a stream.
-- `write.py`: Finally, in this file, you'll implement functions to write a stream of results (the `CloseApproach` objects generated by the `NEODatabase`) to a file either in JSON format or in CSV format.
+- `main.py`: The main Python script that wraps the command-line tool, orchestrates the data pipeline by invoking the functions and classes that we'll write. **we will not need to modify this file.**
+- `models.py`: In this file, we'll define Python objects to represent a `NearEarthObject` and a `CloseApproach`. These objects will have a few attributes, a human-readable string representatino, and perhaps a property or a method here or there.
+- `extract.py`: In this file, we'll write functions to read information from data files, creating `NearEarthObject`s and `CloseApproaches` from the data.
+- `database.py`: In this file, we'll define an `NEODatabase` class to encapsulate the entire data set (connecting NEOs and close approaches) and write methods to get NEOs by primary designation and by name, as well as to query the dataset with a collection of user-specified filters to generate an iterable stream of matching results.
+- `filters.py`: In this file, we'll create a plethora of filters to be used in conjuction with the `NEODatabase` to query for a stream of matching close approaches. we'll also write a utility function to limit the number of results produced from a stream.
+- `write.py`: Finally, in this file, we'll implement functions to write a stream of results (the `CloseApproach` objects generated by the `NEODatabase`) to a file either in JSON format or in CSV format.
 - `helpers.py`: A simple module that provides a few helpful utility functions to convert to and from datetime objects.
 
 The data files are located in the `data/` folder.
 
-Additionally, the starter code includes unit tests that will help you check your progress as you advance through this project. The unit tests all live in the `tests/` folder. When the project is fully implemented, all of the unit tests should pass. To run all of the tests, you can use `python3 -m unittest --verbose` at the command line, although many tests will currently fail since the project isn't yet finished.
+Additionally, the starter code includes unit tests that will help we check wer progress as we advance through this project. The unit tests all live in the `tests/` folder. When the project is fully implemented, all of the unit tests should pass. To run all of the tests, we can use `python3 -m unittest --verbose` at the command line, although many tests will currently fail since the project isn't yet finished.
 
 ## Tasks to Complete
 
@@ -442,13 +442,13 @@ At a high-level, we'll break down this project into a few manageable tasks.
 - Task 3: Create filters to query the database to generate a stream of matching `CloseApproach` objects, and limit the result size. (`filters.py` and `database.py`)
 - Task 4: Save the data to a file. (`write.py`)
 
-As you implement these tasks, you'll unlock more and more functionality. When Task 2 is complete, you'll be able to run the `inspect` subcommand. When Task 3 is complete, you'll be able to run the `query` subcommand without the `--outfile` argument. When Task 4 is complete, you'll be able to run everything.
+As we implement these tasks, we'll unlock more and more functionality. When Task 2 is complete, we'll be able to run the `inspect` subcommand. When Task 3 is complete, we'll be able to run the `query` subcommand without the `--outfile` argument. When Task 4 is complete, we'll be able to run everything.
 
-Remember, in this project you won't need to write any code that prompts the user for input - the `main.py` script will accept arguments from the command line or the interactive session and pass that information to the appropriate Python classes and functions that you create.
+Remember, in this project we won't need to write any code that prompts the user for input - the `main.py` script will accept arguments from the command line or the interactive session and pass that information to the appropriate Python classes and functions that we create.
 
 ### Task 0: Inspect the data set.
 
-The very first step of any project involving known data should _always_ be to manually explore the data set. With any tool you'd like (Excel, a text editor, NASA's online browsers, etc), attempt to answer the following questions before you move on.
+The very first step of any project involving known data should _always_ be to manually explore the data set. With any tool we'd like (Excel, a text editor, NASA's online browsers, etc), attempt to answer the following questions before we move on.
 
 - How many NEOs are in the `neos.csv` data set?
   - Hint: Count the number of rows in the `neos.csv` file.
@@ -466,7 +466,7 @@ The very first step of any project involving known data should _always_ be to ma
   - Hint: Count the number of rows that have nonempty entries in the "diameter" column.
   - Answer: 1268
 - How many close approaches are in the `cad.json` data set?
-  - Hint: Instead of manually counting the entries, you can use the value of the "count" key.
+  - Hint: Instead of manually counting the entries, we can use the value of the "count" key.
   - Answer: 406785
 - On January 1st, 2000, how close did the NEO whose primary designation is "2015 CL" pass by Earth?
   - Find entries whose date starts with '2000-Jan-01'. One of the lists represents the close approach of the NEO "2015 CL". What is the value corresponding to the distance from Earth?
@@ -475,9 +475,9 @@ The very first step of any project involving known data should _always_ be to ma
   - Hint: Find entries whose date starts with '2000-Jan-01'. One of the lists represents the close approach of the NEO "2002 PB". What is the value corresponding to the velocity relative to Earth?
   - Answer: About 29.39 km/s
 
-For this task, you might decide to use the Python interpreter to quickly answer some of these queries if they're too hard to answer by hand.
+For this task, we might decide to use the Python interpreter to quickly answer some of these queries if they're too hard to answer by hand.
 
-Have any lingering curiosities about the dataset? You may be able to use bespoke Python scripts to answer these questions, either now or as they come up.
+Have any lingering curiosities about the dataset? we may be able to use bespoke Python scripts to answer these questions, either now or as they come up.
 
 ### Task 1: Design the objects that will store our data.
 
@@ -501,7 +501,7 @@ class NearEarthObject:
         ...
 ```
 
-The `__init__` method is the constructor for the class. You will need to decide what arguments it should accept. If you make changes, you should also update the surrounding comments.
+The `__init__` method is the constructor for the class. we will need to decide what arguments it should accept. If we make changes, we should also update the surrounding comments.
 
 The `__str__` method will return a human-readable string that captures the contents of the class for a human audience. In contrast, the prewritten `__repr__` method is stylized to be machine-readable.
 
@@ -513,15 +513,15 @@ Each `NearEarthObject` must have attributes (or gettable properties) for the fol
 - `hazardous`: Whether or not this `NearEarthObject` is potentially hazardous.
 - `approaches`: A collection of this `NearEarthObject`s close approaches to Earth.
 
-The starter code contains default values for some of these attributes - you should decide how, and if, to replace that code.
+The starter code contains default values for some of these attributes - we should decide how, and if, to replace that code.
 
 Recall that, even though every NEO in the data set has a nonempty primary designation, some NEOs have no name, and some NEOs have no diameter (it's unknown to NASA).
 
-The `designation` should resolve to a string, the `name` should resolve to either a nonempty string or the value `None`, the `diameter` should resolve to a float (you should use `float('nan')` to represent an undefined diameter), and the `hazardous` flag should resolve to a boolean.
+The `designation` should resolve to a string, the `name` should resolve to either a nonempty string or the value `None`, the `diameter` should resolve to a float (we should use `float('nan')` to represent an undefined diameter), and the `hazardous` flag should resolve to a boolean.
 
-The `approaches` attribute, for now, can be an empty collection. In Task 2, you'll use the real data set to populate this collection with the real `CloseApproach` data.
+The `approaches` attribute, for now, can be an empty collection. In Task 2, we'll use the real data set to populate this collection with the real `CloseApproach` data.
 
-The `__str__` method that you write is up to you - it'll determine how this object is printed, and should be human-readable. For inspiration, we adopted the following format:
+The `__str__` method that we write is up to we - it'll determine how this object is printed, and should be human-readable. For inspiration, we adopted the following format:
 
 ```
 >>> neo = ...
@@ -547,7 +547,7 @@ class CloseApproach:
         ...
 ```
 
-The `__init__` method is the constructor for the class. You will need to decide what arguments it should accept. If you make changes, you should also update the surrounding comments.
+The `__init__` method is the constructor for the class. we will need to decide what arguments it should accept. If we make changes, we should also update the surrounding comments.
 
 The `__str__` method will return a human-readable string that captures the contents of the class for a human audience. In contrast, the prewritten `__repr__` method is stylized to be machine-readable.
 
@@ -560,11 +560,11 @@ Each `CloseApproach` must have attributes (or gettable properties) for the follo
 
 The `date` should resolve to a Python datetime, the `distance` should resolve to a float, and the `velocity` should resolve to a float.
 
-The `neo` attribute, for now, can be `None`. In its absence, you should include a `_designation` attribute with the primary designation of the close approach's NEO. In Task 2, you'll use the real data set and this `_designation` attribute to connect the `neo` attribute to a real `NearEarthObject` instance.
+The `neo` attribute, for now, can be `None`. In its absence, we should include a `_designation` attribute with the primary designation of the close approach's NEO. In Task 2, we'll use the real data set and this `_designation` attribute to connect the `neo` attribute to a real `NearEarthObject` instance.
 
-You can use the `cd_to_datetime` function in the `helpers` module to convert a calendar date from the format provided in `cad.json` (e.g. "1900-Jan-01 00:00") into a Python `datetime` object.
+we can use the `cd_to_datetime` function in the `helpers` module to convert a calendar date from the format provided in `cad.json` (e.g. "1900-Jan-01 00:00") into a Python `datetime` object.
 
-The `__str__` method that you write is up to you - it'll determine how this object is printed, and should be human-readable. For inspiration, we adopted the following format:
+The `__str__` method that we write is up to we - it'll determine how this object is printed, and should be human-readable. For inspiration, we adopted the following format:
 
 ```
 >>> ca = ...
@@ -575,11 +575,11 @@ At {time_str}, '{neo.fullname}' approaches Earth at a distance of {distance:.2f}
 On 1910-05-20 12:49, '1P (Halley)' approaches Earth at a distance of 0.15 au and a velocity of 70.56 km/s.
 ```
 
-You should use the `datetime_to_str` function from the `helpers` module to format the `time` attribute to a string without seconds. This is another great opportunity for a property!
+we should use the `datetime_to_str` function from the `helpers` module to format the `time` attribute to a string without seconds. This is another great opportunity for a property!
 
 #### Testing
 
-Make sure to manually test your implementation at an interactive interpreter. Your interactive session might look something like:
+Make sure to manually test wer implementation at an interactive interpreter. wer interactive session might look something like:
 
 ```
 $ python3 -q
@@ -608,7 +608,7 @@ datetime.datetime
 On 2020-01-01 12:30, '2020 FK (One REALLY BIG fake asteroid)' approaches Earth at a distance of 0.25 au and a velocity of 56.78 km/s.
 ```
 
-As you progress the the remaining tasks, you may have to revisit this file to adapt your implementation - that's expected!
+As we progress the the remaining tasks, we may have to revisit this file to adapt wer implementation - that's expected!
 
 ### Task 2: Extract data from structures files into Python objects.
 
@@ -621,7 +621,7 @@ For this task, we'll make changes in two files:
 
 #### Task 2a: Extract data from data files.
 
-In the `extract.py` file, you'll implement the `load_neos` and `load_approaches` functions:
+In the `extract.py` file, we'll implement the `load_neos` and `load_approaches` functions:
 
 ```
 def load_neos(neo_csv_path):
@@ -633,15 +633,15 @@ def load_approaches(cad_json_path):
     return a collection of `CloseApproach` instances.
 ```
 
-The `neo_csv_path` and `cad_json_path` arguments are Path-like objects corresponding either to the default `data/neos.csv` and `data/cad.json` or to some alternate location specifed by the user at the command line. You can `open(neo_csv_path)` or `open(cad_json_path)` as usual.
+The `neo_csv_path` and `cad_json_path` arguments are Path-like objects corresponding either to the default `data/neos.csv` and `data/cad.json` or to some alternate location specifed by the user at the command line. we can `open(neo_csv_path)` or `open(cad_json_path)` as usual.
 
-In this module, you'll have to use the built-in `csv` and `json` modules. You'll also need to rely on the `NearEarthObject` and `CloseApproach` classes you defined in Task 1, which you could end up adapting if needed.
+In this module, we'll have to use the built-in `csv` and `json` modules. we'll also need to rely on the `NearEarthObject` and `CloseApproach` classes we defined in Task 1, which we could end up adapting if needed.
 
 The collections returned by `load_neos` and `load_approaches` are then used by the `main.py` script to create an `NEODatabase`.
 
 #### Task 2b: Encapsulate the data in a `NEODatabase`.
 
-In the `database.py` file, you'll implement the `__init__` constructor of the `NEODatabase` object and finish the `get_neo_by_designation` and `get_neo_by_name` methods. At the start, the `NEODatabase` class looks like:
+In the `database.py` file, we'll implement the `__init__` constructor of the `NEODatabase` object and finish the `get_neo_by_designation` and `get_neo_by_name` methods. At the start, the `NEODatabase` class looks like:
 
 ```
 class NEODatabase:
@@ -655,17 +655,17 @@ class NEODatabase:
 
 The `neos` and `approaches` arguments provided to the `NEODatabase` constructor are exactly the objects produced by the `load_neos` and `load_approaches` functions of the `extract` module.
 
-In the `NEODatabase` constructor, you must connect together the collection of `NearEarthObject`s and the collection of `CloseApproach`es. Specifically, for each close approach, you should determine to which NEO its `_designation` corresponds, and assign that `NearEarthObject` to the `CloseApproach`'s `.neo` attribute (which we set to `None` in Task 1). Additionally, you should add this close approach to the `NearEarthObject`'s `.approaches` attribute, which represents a collection of `CloseApproach`es (which we initialized to an empty collection in Task 1).
+In the `NEODatabase` constructor, we must connect together the collection of `NearEarthObject`s and the collection of `CloseApproach`es. Specifically, for each close approach, we should determine to which NEO its `_designation` corresponds, and assign that `NearEarthObject` to the `CloseApproach`'s `.neo` attribute (which we set to `None` in Task 1). Additionally, we should add this close approach to the `NearEarthObject`'s `.approaches` attribute, which represents a collection of `CloseApproach`es (which we initialized to an empty collection in Task 1).
 
-In addition to storing the newly-connected NEOs and close approaches, you'll likely want to precompute some helpful auxiliary data structures that can speed up the `get_neo_by_designation` and `get_neo_by_name` methods. If you loop over every known NEO in those methods, the resulting code will be unnecessarily slow. What additional data structures can we attach to the `NEODatabase` that can assist with these methods?
+In addition to storing the newly-connected NEOs and close approaches, we'll likely want to precompute some helpful auxiliary data structures that can speed up the `get_neo_by_designation` and `get_neo_by_name` methods. If we loop over every known NEO in those methods, the resulting code will be unnecessarily slow. What additional data structures can we attach to the `NEODatabase` that can assist with these methods?
 
 Both the `get_neo_by_designation` and `get_neo_by_name` methods should return None if a matching NEO wasn't found in the database. For `get_neo_by_name`, in no case should the empty string nor the `None` singleton be associated to an NEO. Furthermore, in the relatively rare case that there are multiple NEOs with the same `name`, it's acceptable to return any of them.
 
 #### Testing
 
-It's always a good idea to manually test your implementation at an interactive interpreter. However, starting with Task 2, we provide additional tools for you to check your code.
+It's always a good idea to manually test wer implementation at an interactive interpreter. However, starting with Task 2, we provide additional tools for we to check wer code.
 
-You can use the pre-written unit tests to check that each of your functions and methods are working as required:
+we can use the pre-written unit tests to check that each of wer functions and methods are working as required:
 
 ```
 $ python3 -m unittest --verbose tests.test_extract tests.test_database
@@ -673,7 +673,7 @@ $ python3 -m unittest --verbose tests.test_extract tests.test_database
 
 There are a total of 21 unit tests for this task. When Task 2 is complete, all of the unit tests in these two modules will pass.
 
-Furthermore, after completing Task 2 entirely, the `inspect` subcommand will fully work. Therefore, you can use the command line to test your code as well:
+Furthermore, after completing Task 2 entirely, the `inspect` subcommand will fully work. Therefore, we can use the command line to test wer code as well:
 
 ```
 $ python3 main.py inspect --name Halley
@@ -694,11 +694,11 @@ NEO 1036 (Ganymed) has a diameter of 37.675 km and is not potentially hazardous.
 - On 2037-10-15 18:31, '1036 (Ganymed)' approaches Earth at a distance of 0.47 au and a velocity of 18.68 km/s.
 ```
 
-Don't forget that you can use the `interactive` subcommand to repeatedly `inspect` NEOs without having to reload the database each time!
+Don't forget that we can use the `interactive` subcommand to repeatedly `inspect` NEOs without having to reload the database each time!
 
 ### Task 3: Query close approaches with user-specified criteria.
 
-Woohoo! You're making real progress. We can extract data from structured files, create `NearEarthObject` and `CloseApproach` instances to represent that data, and capture the data in an `NEODatabase`. Now, we'll provide the ability to query the data set of close approaches for a limited size stream of matching results.
+Woohoo! we're making real progress. We can extract data from structured files, create `NearEarthObject` and `CloseApproach` instances to represent that data, and capture the data in an `NEODatabase`. Now, we'll provide the ability to query the data set of close approaches for a limited size stream of matching results.
 
 We'll split this task up into a few steps:
 
@@ -716,11 +716,11 @@ There are several filters that we'll implementing, corresponding to options from
 
 Of these, the date, distance, and velocity filters apply to attributes of an instance of `CloseApproach`, whereas the diameter and hazardous filters apply to attributes of an instance of `NearEarthObject`. The date filter operates on Python date and datetime objects; the distance, velocity, and diameter filters operate on floats, and the hazardous filter operates on booleans.
 
-You have a lot of design freedom in the first and second steps. They are closely related, so it's a good idea to start with just one filter type (distance, perhaps) in step 1, so that you can build and test step 2. Once step 1 and step 2 are working with a single filter type, you can expand to implement each of the rest of the filters. You can also leverage the tests (in `tests.test_query`, with `python3 -m unittest --verbose tests.test_query`) to measure your steady progress through the first two steps.
+we have a lot of design freedom in the first and second steps. They are closely related, so it's a good idea to start with just one filter type (distance, perhaps) in step 1, so that we can build and test step 2. Once step 1 and step 2 are working with a single filter type, we can expand to implement each of the rest of the filters. we can also leverage the tests (in `tests.test_query`, with `python3 -m unittest --verbose tests.test_query`) to measure wer steady progress through the first two steps.
 
 #### Task 3a: Creating filters.
 
-For this step, you'll implement the `create_filters` function in the `filters.py` file. The `main.py` script calls this function with the options that the user provided at the command line.
+For this step, we'll implement the `create_filters` function in the `filters.py` file. The `main.py` script calls this function with the options that the user provided at the command line.
 
 ```
 def create_filters(date=None, start_date=None, end_date=None,
@@ -732,9 +732,9 @@ def create_filters(date=None, start_date=None, end_date=None,
 
 If the user didn't provide an option, its value will be `None`. Note that, if the user specifies `--not-hazardous`, the value of the `hazardous` argument will be `False`, not to be confused with `None`.
 
-You have tons of flexibility in what this object returns. The `main.py` script takes whatever it receives and passes it directly to the `query` method that you'll implement in Task 3b.
+we have tons of flexibility in what this object returns. The `main.py` script takes whatever it receives and passes it directly to the `query` method that we'll implement in Task 3b.
 
-Designing a program with this much flexibility can be daunting, so we've prepared a first step for one possible approach (from which you can, and likely will, deviate) - under this plan, the `create_filters` function will produce a collection of instances of subclasses of `AttributeFilter` - a helper class we've already provided to you. You don't need to rely on `AttributeFilter` or even use it at all - you can delete it and pursue your own implementation design - but here's the idea:
+Designing a program with this much flexibility can be daunting, so we've prepared a first step for one possible approach (from which we can, and likely will, deviate) - under this plan, the `create_filters` function will produce a collection of instances of subclasses of `AttributeFilter` - a helper class we've already provided to we. we don't need to rely on `AttributeFilter` or even use it at all - we can delete it and pursue wer own implementation design - but here's the idea:
 
 What do these filters have in common? Each of them compares (with `<=`,`==`, or `>=`) some attribute (of a `CloseApproach` or a `NearEarthObject`) to a reference value. For example, the date filters check if the close approach date is equal to, less than or equal to, or greater than or equal to the date given on the command line. So, the three things that seem to be shared between all of our filters are (1) a way to get the attribute we're interested in and (2) a way to compare that attribute against (3) some reference value. Where there's shared behavior, there's an opportunity for decomposition.
 
@@ -777,21 +777,21 @@ f(approach_433)  # => True
 f(approach_other)  # => True
 ```
 
-This might seem complex - and it is. Are there different ways to do this? Well, yes. However, this is a relatively clean first approach, and the `AttributeFilter` is a first step towards unifying these filters, from which you can deviate freely.
+This might seem complex - and it is. Are there different ways to do this? Well, yes. However, this is a relatively clean first approach, and the `AttributeFilter` is a first step towards unifying these filters, from which we can deviate freely.
 
 ##### On Comparing Dates
 
 So far, we've been treating `date`s (naive Python objects that store a year, month, and day) and `datetime`s (naive Python objects that store a year, month, day, hour, minute, and seconds) as essentially interchangeable. Mostly, we haven't cared too much about the details. However, `date`s and `datetime`s are not comparable (would "May 1st" be before, after, or equal to "May 1st at noon"?).
 
-The `date`, `start_date`, and `end_date` arguments supplied to `create_filters` are `date`s, but the `.time` attribute of a `CloseApproach` is a `datetime`. You can use the `.date()` method on `datetime` objects to get the corresponding moment as a `date`. That is, you aren't able to evaluate `start_date <= approach.time <= end_date` but you are able to evaluate `start_date <= approach.time.date() <= end_date`
+The `date`, `start_date`, and `end_date` arguments supplied to `create_filters` are `date`s, but the `.time` attribute of a `CloseApproach` is a `datetime`. we can use the `.date()` method on `datetime` objects to get the corresponding moment as a `date`. That is, we aren't able to evaluate `start_date <= approach.time <= end_date` but we are able to evaluate `start_date <= approach.time.date() <= end_date`
 
 #### Task 3b: Query the database of close approaches using user-specified criteria.
 
-Let's turn our attention back to the `database.py` file. For this task, you'll implement the `query` method, which will generate a stream of `CloseApproach`es that match the user's criteria.
+Let's turn our attention back to the `database.py` file. For this task, we'll implement the `query` method, which will generate a stream of `CloseApproach`es that match the user's criteria.
 
-The `query` method accepts one argument - a collection of filters. The `main.py` script supplies to the `query` method whatever was returned from the `create_filters` function you implemented above.
+The `query` method accepts one argument - a collection of filters. The `main.py` script supplies to the `query` method whatever was returned from the `create_filters` function we implemented above.
 
-You have a lot of freedom in how you implement this method - your implementation choice depends heavily on how you designed your filters in the previous section. In pseudo-code, we roughly expect the implementation to look something like the following:
+we have a lot of freedom in how we implement this method - wer implementation choice depends heavily on how we designed wer filters in the previous section. In pseudo-code, we roughly expect the implementation to look something like the following:
 
 ```
 define query(filters):
@@ -800,36 +800,36 @@ define query(filters):
       yield this close approach
 ```
 
-As before, you can certainly deviate from this pattern, especially depending on how you chose to implement the previous step.
+As before, we can certainly deviate from this pattern, especially depending on how we chose to implement the previous step.
 
 Why `yield`? Recall that when we use `yield` in a Python function, it becomes a generator function, capable of pausing and resuming. Generators are often useful to represent sources of data streams. In our project, there might be thousands of close approaches matching the user's criteria, but we might only need to show the first ten (specified with the `--limit` command-line option). For these cases, we'll want the `query` function not to return a fully-computed collection of matching close approaches - which could take a while to compute - but rather to generate a stream of matching close approaches. In doing so, we'll make the `query` method almost instantaneous, and only do the work to determine the next element of the generator (the next matching `CloseApproach`) if another unit of code asks for it.
 
-There are a plethora of other ways to optimize this method as well. For example, you could preprocess even more auxiliary data structures in the `NEODatabase` constructor to speed up specific queries. You might map dates to collections of close approaches that occurred on those dates, to speed up the `--date` criterion. You might order the close approaches by distance or velocity, or the NEOs by diameter, in order to more efficiently search for matches. Furthermore, you might be able to intelligently combine filters - for example, there are definitely no close approaches that are simulataneously closer than 0.1au (`--max-distance 0.1`) to Earth and further than 0.3au (`--max-distance 0.3`) from Earth. Depending on the exact approach you take, some of these changes may affect the design of your filters or the `create_filter` function, but there are many opportunities for performance improvements.
+There are a plethora of other ways to optimize this method as well. For example, we could preprocess even more auxiliary data structures in the `NEODatabase` constructor to speed up specific queries. we might map dates to collections of close approaches that occurred on those dates, to speed up the `--date` criterion. we might order the close approaches by distance or velocity, or the NEOs by diameter, in order to more efficiently search for matches. Furthermore, we might be able to intelligently combine filters - for example, there are definitely no close approaches that are simulataneously closer than 0.1au (`--max-distance 0.1`) to Earth and further than 0.3au (`--max-distance 0.3`) from Earth. Depending on the exact approach we take, some of these changes may affect the design of wer filters or the `create_filter` function, but there are many opportunities for performance improvements.
 
-However, while these additional optimizations are certainly interesting - and in many cases can speed up the time it takes to perform complex queries - they are in no way necessary to successfully complete this task. By following the pseudocode given above, you can query the collection of close approaches to generate (with `yield`) a stream of results that match user-specified criteria.
+However, while these additional optimizations are certainly interesting - and in many cases can speed up the time it takes to perform complex queries - they are in no way necessary to successfully complete this task. By following the pseudocode given above, we can query the collection of close approaches to generate (with `yield`) a stream of results that match user-specified criteria.
 
 #### Task 3c: Limit the results to at most some maximum number.
 
-After the `main.py` script runs `.query` on the `NEODatabase` with the objects you produced in `create_filters`, it sends the stream of results through the `limit` function in the `filters` module. This is the next function that we'll write.
+After the `main.py` script runs `.query` on the `NEODatabase` with the objects we produced in `create_filters`, it sends the stream of results through the `limit` function in the `filters` module. This is the next function that we'll write.
 
 ```
 def limit(iterator, n):
     ...
 ```
 
-The first argument - `iterator` - represents a stream of data, as an iterable. In our pipeline, it will be the stream of `CloseApproach`es produced by the `query` method. The second argument - `n`- represents the maximum number of elements from the stream that might be produced by the `limit` function. If `n` is `None` or zero, you shouldn't limit the results at all.
+The first argument - `iterator` - represents a stream of data, as an iterable. In our pipeline, it will be the stream of `CloseApproach`es produced by the `query` method. The second argument - `n`- represents the maximum number of elements from the stream that might be produced by the `limit` function. If `n` is `None` or zero, we shouldn't limit the results at all.
 
-You should not treat the `iterator` argument as being an in-memory aggregate data type, such as a list or a tuple. In particular, you should not slice the `iterator` argument.
+we should not treat the `iterator` argument as being an in-memory aggregate data type, such as a list or a tuple. In particular, we should not slice the `iterator` argument.
 
 Why restrict ourselves in this way? With any sufficiently large dataset, we'd usually like to do the minimum number of operations necessary to achieve our goal. As just discussed, there are some queries for which, if we simply calculated and buffered all matching close approaches from the `query` method and sliced the result, the runtime would be just too slow. Although our data set may be small enough for the naive solution to be possible, it's still big enough to illustrate a noticeable improved performance by leveraging operations on iterators and generators.
 
-As a hint, (although not necessary) you may find the [itertools.islice](https://docs.python.org/3/library/itertools.html#itertools.islice) function helpful.
+As a hint, (although not necessary) we may find the [itertools.islice](https://docs.python.org/3/library/itertools.html#itertools.islice) function helpful.
 
 #### Testing
 
-It's getting a little harder to manually test your implementations.
+It's getting a little harder to manually test wer implementations.
 
-At the command line, as you implement more and more individual filters (and their effect on `query`), you'll unlock more and more of the options of the `query` subcommand. When this task is finished, the `query` subcommand will work completely, with the exception of `--outfile`. Here are a few examples:
+At the command line, as we implement more and more individual filters (and their effect on `query`), we'll unlock more and more of the options of the `query` subcommand. When this task is finished, the `query` subcommand will work completely, with the exception of `--outfile`. Here are a few examples:
 
 ```
 # Query for close approaches on 2020-01-01
@@ -860,32 +860,32 @@ $ python3 main.py query --max-distance 0.1 --min-velocity 35 --min-diameter 2.5 
 
 There are more examples at the start of this README and in the `main.py` file's module comment.
 
-In some cases, you might want to `inspect` an NEO to check that the diameter and hazardous filters behave correctly.
+In some cases, we might want to `inspect` an NEO to check that the diameter and hazardous filters behave correctly.
 
-Again, recall that you can use the `interactive` subcommand to load the database once and perform several `query` and `inspect` commands, which will avoid excessively waiting for your code to reload the database with each command.
+Again, recall that we can use the `interactive` subcommand to load the database once and perform several `query` and `inspect` commands, which will avoid excessively waiting for wer code to reload the database with each command.
 
-Additionally, you can use the pre-written unit tests to exercise each of these steps. You can read the test files if you'd like to see exactly which test cases we use.
+Additionally, we can use the pre-written unit tests to exercise each of these steps. we can read the test files if we'd like to see exactly which test cases we use.
 
 ```
 $ python3 -m unittest tests.test_query tests.test_limit
 ```
 
-There are a total of 37 unit tests for this task. You can use these tests during development as well. As you implement individual filter types, you'll pass more and more of the tests.
+There are a total of 37 unit tests for this task. we can use these tests during development as well. As we implement individual filter types, we'll pass more and more of the tests.
 
 When this task is complete, all tests should pass.
 
 ### Task 4: Report the results.
 
-Fantastic! You've successfully written code to filter and limit the database of close approaches with user-specified criteria. So far, the results have been simply printed to standard output.
+Fantastic! we've successfully written code to filter and limit the database of close approaches with user-specified criteria. So far, the results have been simply printed to standard output.
 
-For this task, you'll implement functions in `write.py` to save these results to an output file. You'll write two functions:
+For this task, we'll implement functions in `write.py` to save these results to an output file. we'll write two functions:
 
 - `write_to_csv`: Write a stream of `CloseApproach` objects to a specific CSV file.
 - `write_to_json`: Write a stream of `CloseApproach` objects to a specific JSON file.
 
 Each of these functions accepts two arguments: `results` and `filename`.
 
-The `results` parameter is a stream of `CloseApproach` objects, as produced by the `limit` function. The `filename` parameter is a Path-like object with the name of the output file. You can `open(filename, 'w')` as usual.
+The `results` parameter is a stream of `CloseApproach` objects, as produced by the `limit` function. The `filename` parameter is a Path-like object with the name of the output file. we can `open(filename, 'w')` as usual.
 
 If there are no results, then `write_to_csv` should just write a header row, and `write_to_json` should just write an empty list.
 
@@ -932,7 +932,7 @@ The `datetime_utc` value should be a string formatted with `datetime_to_str` fro
 
 #### Deduplicating Serialization
 
-It can feel as though this output specification includes several edge cases. Fortunately, with the right design, Python's default behavior will handle these edge cases smoothly. While you are free to concretely implement these methods in any way you would like, we recommend that you add `.serialize()`methods to the `NearEarthObject` and `CloseApproach` classes that each produce a dictionary containing relevant attributes for CSV or JSON serialization. These methods can individually handle any edge cases, in a single place. For example:
+It can feel as though this output specification includes several edge cases. Fortunately, with the right design, Python's default behavior will handle these edge cases smoothly. While we are free to concretely implement these methods in any way we would like, we recommend that we add `.serialize()`methods to the `NearEarthObject` and `CloseApproach` classes that each produce a dictionary containing relevant attributes for CSV or JSON serialization. These methods can individually handle any edge cases, in a single place. For example:
 
 ```
 >>> neo = NearEarthObject(...)
@@ -947,7 +947,7 @@ It can feel as though this output specification includes several edge cases. For
 
 Congratulations! This was the final task for this project.
 
-At this point, all of the unit tests should pass. You can run all of the unit tests:
+At this point, all of the unit tests should pass. we can run all of the unit tests:
 
 ```
 $ python3 -m unittest
@@ -958,11 +958,11 @@ Ran 73 tests in 3.666s
 OK
 ```
 
-Heck, run it with `python3 -m unittest --verbose` to verbosely celebrate all of the test cases that you have now made pass.
+Heck, run it with `python3 -m unittest --verbose` to verbosely celebrate all of the test cases that we have now made pass.
 
 Tests for this specific task are in the `tests.test_write` module.
 
-Furthermore, the complete functional interface of the command line tool should now work. Therefore, you can now use `main.py` freely (including the --outfile argument). For example:
+Furthermore, the complete functional interface of the command line tool should now work. Therefore, we can now use `main.py` freely (including the --outfile argument). For example:
 
 ```
 # Save (the first) five close approaches on 2020-01-01 to a CSV file.
@@ -1000,25 +1000,25 @@ We've reviewed a lot of information. Here's a high-level overview of the main pa
 
 ## Development Environments
 
-This project requires Python 3.6+. To see the version of your environment's Python 3, run `python3 -V` at the command line. You should see: `Python 3.X.Y` where X >= 6.
+This project requires Python 3.6+. To see the version of wer environment's Python 3, run `python3 -V` at the command line. we should see: `Python 3.X.Y` where X >= 6.
 
 Fortunately, this project has no dependencies external to the Python standard library, so there's no need for virtual environments.
 
-All of the examples use the `python3` executable. Only if your environment's `python -V` is also Python 3.6+ can you use `python` instead of `python3`.
+All of the examples use the `python3` executable. Only if wer environment's `python -V` is also Python 3.6+ can we use `python` instead of `python3`.
 
-There are two primary environments in which you might accomplish this project: (1) in a Udacity classroom workspace; (2) locally, on a machine you control.
+There are two primary environments in which we might accomplish this project: (1) in a Udacity classroom workspace; (2) locally, on a machine we control.
 
 ### Udacity Workspace
 
-Within the Udacity course, under the "Project: Exploring Near-Earth Objects" lesson, find the "Project Workspace" page and click on it. You'll be taken to a development environment with a file explorer, a code editor, and a command line. This workspace already contains all of the necessary files within the `/home/workspace` folder - you're ready to get started!
+Within the Udacity course, under the "Project: Exploring Near-Earth Objects" lesson, find the "Project Workspace" page and click on it. we'll be taken to a development environment with a file explorer, a code editor, and a command line. This workspace already contains all of the necessary files within the `/home/workspace` folder - we're ready to get started!
 
 ### Local Development
 
-First, clone the project to your local machine with `git clone https://github.com/udacity/nd303-c1-advanced-python-techniques-project-starter.git`, and then navigate to the project directory (the one containing `main.py`).
+First, clone the project to wer local machine with `git clone https://github.com/udacity/nd303-c1-advanced-python-techniques-project-starter.git`, and then navigate to the project directory (the one containing `main.py`).
 
-### Check Your Setup
+### Check wer Setup
 
-As you settle into your development environment, run the following unit tests to check that your environment is set up correctly. All of the tests should pass, even on the starter code.
+As we settle into wer development environment, run the following unit tests to check that wer environment is set up correctly. All of the tests should pass, even on the starter code.
 
 ```
 $ python3 -m unittest --verbose tests.test_python_version
@@ -1040,16 +1040,16 @@ Ran 4 tests in X.XXXs
 OK
 ```
 
-If any of the tests fail, you should fix the causes of error before beginning this project.
+If any of the tests fail, we should fix the causes of error before beginning this project.
 
 ## Deliverables
 
-Upon completing this project, you'll have modified at least `database.py`, `extract.py`, `filters.py`, `models.py`, and `write.py`. If you went above-and-beyond with any Stand Out Suggestions, include your changes alongside an EXTENSIONS.md file describing your changes so that the reviewers can understand what you've done.
+Upon completing this project, we'll have modified at least `database.py`, `extract.py`, `filters.py`, `models.py`, and `write.py`. If we went above-and-beyond with any Stand Out Suggestions, include wer changes alongside an EXTENSIONS.md file describing wer changes so that the reviewers can understand what we've done.
 
-Over the course of this project (specifically, in Task 4), you've likely created several output files. You should remove these files before submitting your project.
+Over the course of this project (specifically, in Task 4), we've likely created several output files. we should remove these files before submitting wer project.
 
 ### Rubric
 
-In addition to the functionality requirements detailed above, your submission will be assessed on how well it follows best practices in Python. Roughly speaking, "best practices" can be divided into two categories - mechanics and design. Good Python mechanics adhere to [PEP 8](https://www.python.org/dev/peps/pep-0008/) - the style guide for Python code - and [PEP 257](https://www.python.org/dev/peps/pep-0257/) - docstring conventions. These address rules for naming, spacing, commenting, and several common programming patterns. Additionally, good general programming mechanics that you are expected to follow include removing starter code markings, removing extraneous print statements, and documenting your code. Python design refers to the higher-level organization of your code - the interfaces and implementation boundaries defined by your code objects. Many interface and implementation boundaries are already imposed by the organization of the starter code; however, there are still several situations (particularly in Tasks 3 and 4) in which the organization of your code can reflect poorly on or reflect well on the organization of the problem and your choice of solution.
+In addition to the functionality requirements detailed above, wer submission will be assessed on how well it follows best practices in Python. Roughly speaking, "best practices" can be divided into two categories - mechanics and design. Good Python mechanics adhere to [PEP 8](https://www.python.org/dev/peps/pep-0008/) - the style guide for Python code - and [PEP 257](https://www.python.org/dev/peps/pep-0257/) - docstring conventions. These address rules for naming, spacing, commenting, and several common programming patterns. Additionally, good general programming mechanics that we are expected to follow include removing starter code markings, removing extraneous print statements, and documenting wer code. Python design refers to the higher-level organization of wer code - the interfaces and implementation boundaries defined by wer code objects. Many interface and implementation boundaries are already imposed by the organization of the starter code; however, there are still several situations (particularly in Tasks 3 and 4) in which the organization of wer code can reflect poorly on or reflect well on the organization of the problem and wer choice of solution.
 
 Complete details on grading criteria are available in the attached rubric.
