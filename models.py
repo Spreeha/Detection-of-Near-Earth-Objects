@@ -2,7 +2,7 @@
 
 The `NearEarthObject` class represents a near-Earth object. Each has a unique
 primary designation, an optional unique name, an optional diameter, and a flag
-for whether the object is potentially hazardous.
+for whether the object is  potentially hazardous.
 
 The `CloseApproach` class represents a close approach to Earth by an NEO. Each
 has an approach datetime, a nominal approach distance, and a relative approach

@@ -14,7 +14,7 @@ You'll edit this file in Tasks 2 and 3.
 
 
 class NEODatabase:
-    """A database of near-Earth objects and their close approaches.
+    """A database of near-Earth objects and their close  approaches.
 
     A `NEODatabase` contains a collection of NEOs and a collection of close
     approaches. It additionally maintains a few auxiliary data structures to

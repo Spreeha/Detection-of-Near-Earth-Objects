@@ -172,7 +172,7 @@ def limit(iterator, n=None):
 
     If `n` is 0 or None, don't limit the iterator at all.
 
-    :param iterator: An iterator of values.
+    :param iterator: An  iterator of values.
     :param n: The maximum number of values to produce.
     :yield: The first (at most) `n` values from the iterator.
     """

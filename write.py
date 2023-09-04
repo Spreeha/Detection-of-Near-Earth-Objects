@@ -1,7 +1,7 @@
 """Write a stream of close approaches to CSV or to JSON.
 
 This module exports two functions: `write_to_csv` and `write_to_json`, each of
-which accept an `results` stream of close approaches and a path to which to
+which accept an `results` stream of  close approaches and a path to which to
 write the data.
 
 These functions are invoked by the main module with the output of the `limit`
